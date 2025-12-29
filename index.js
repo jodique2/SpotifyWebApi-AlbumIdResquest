@@ -5,6 +5,8 @@ import {
 } from "./spotify.js";
 
 import readline from "node:readline";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 // criar interface do terminal
 const rl = readline.createInterface({
@@ -40,7 +42,7 @@ async function main() {
 
   const albums = await getArtistAlbums(artistFinal.id, token);
 
-  // 🔥 JSON FINAL FORMATADO
+  // JSON FINAL FORMATADO
   const output = {
     id_artista: artistFinal.id,
     nome_artista: artistFinal.name,
@@ -52,6 +54,22 @@ async function main() {
 
   // imprimir JSON bonito
   console.log(JSON.stringify(output, null, 2));
+
+  // criar pasta data se não existir
+  const dataDir = path.join(process.cwd(), "data");
+  await fs.mkdir(dataDir, { recursive: true });
+
+  // nome do ficheiro
+  const fileName = `${output.nome_artista
+    .toLowerCase()
+    .replace(/\s+/g, "_")}.json`;
+
+  const filePath = path.join(dataDir, fileName);
+
+  // escrever ficheiro
+  await fs.writeFile(filePath, JSON.stringify(output, null, 2), "utf-8");
+
+  console.log(`\n💾 Guardado em: ${filePath}`);
 
   rl.close();
 }
