@@ -43,14 +43,17 @@ async function main() {
   const albums = await getArtistAlbums(artistFinal.id, token);
 
   // JSON FINAL FORMATADO
-  const output = {
+    const output = {
     id_artista: artistFinal.id,
     nome_artista: artistFinal.name,
+    url_artista: `https://open.spotify.com/artist/${artistFinal.id}`,
     albuns: albums.map(album => ({
-      id_album: album.id,
-      nome_album: album.name,
+        id_album: album.id,
+        nome_album: album.name,
+        url_album: `https://open.spotify.com/album/${album.id}`,
     })),
-  };
+    };
+
 
   // imprimir JSON bonito
   console.log(JSON.stringify(output, null, 2));
