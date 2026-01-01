@@ -1,4 +1,6 @@
 .env
-node_modules
+node_modules/
+__pycache__/
+.spotdl-cache/
 downloaded_log.json
 data
