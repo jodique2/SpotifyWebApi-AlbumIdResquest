@@ -21,18 +21,20 @@ O objetivo do projeto é facilitar a **organização de bibliotecas musicais pes
 
 ## Estrutura do Projeto
 
+```text
 spotify-album-fetcher/
-  - index.js # Pesquisa no Spotify e criação dos JSON
-  - spotify.js # Funções de acesso à Spotify Web API
-  - processData.py # Download dos álbuns com spotDL
-
-  - data/ # JSONs gerados (1 por artista)
-    - mac_miller.json
-
-  - downloaded_log.json # Registo de álbuns já descarregados
-  - .env # Credenciais da Spotify API (não fazer commit)
-  - package.json
-  - README.md
+├── index.js              # Pesquisa no Spotify e criação dos JSON
+├── spotify.js            # Funções de acesso à Spotify Web API
+├── processData.py        # Download dos álbuns com spotDL
+│
+├── data/                 # JSONs gerados (1 por artista)
+│   └── mac_miller.json
+│
+├── downloaded_log.json   # Registo de álbuns já descarregados
+├── .env                  # Credenciais da Spotify API (não fazer commit)
+├── package.json
+└── README.md
+```
 
 ## Requisitos
 
@@ -42,64 +44,74 @@ spotify-album-fetcher/
 ### Python
 - Python **3.10 ou superior**
 - spotDL instalado:
-  ```bash
-  pip install spotdl
+
+```bash
+pip install spotdl
+```
 
 ### Spotify Developer Account
 
 Criar uma aplicação em:
 https://developer.spotify.com/dashboard
 
-
 ### Configuração do .env
 
-Criar um ficheiro .env na raiz do projeto:
+Criar um ficheiro `.env` na raiz do projeto:
 
-```
+```env
 SPOTIFY_CLIENT_ID=coloca_aqui_o_teu_client_id
 SPOTIFY_CLIENT_SECRET=coloca_aqui_o_teu_client_secret
 ```
 
+**Nunca faças commit do ficheiro `.env`**
 
-**Nunca faças commit do ficheiro ".env"**
+## Utilização
 
+### 1. Instalar dependências Node.js
 
-Utilização
-1. Instalar dependências Node.js
+```bash
 npm install
-
-2. Criar o ficheiro JSON do artista
-npm start
-
-
-O programa pede um termo de pesquisa e inserimos o nome do artista, exemplo:
-
 ```
+
+### 2. Criar o ficheiro JSON do artista
+
+```bash
+npm start
+```
+
+O programa pede um termo de pesquisa. Exemplo:
+
+```text
 Pesquisa artista ou álbum: Mac Miller
 ```
 
 Será criado automaticamente:
-```
-data
-  ├──mac_miller.json
+
+```text
+data/
+└── mac_miller.json
 ```
 
-Se inserir o nome de um álbum, ele vai buscar o artista que está relacionado com esse albúm e criar o ficheiro JSON com a mesma lógica que anterioremente.
+Se inserires o nome de um álbum, o script identifica o artista associado
+e cria o ficheiro JSON seguindo a mesma lógica.
 
-3. Descarregar os álbuns
+### 3. Descarregar os álbuns
 
 Após a criação do JSON, o script Python é executado automaticamente.
 
 Também é possível executar apenas o Python:
-```
+
+```bash
 python processData.py
 ```
-O script pergunta qual o JSON a processar.
 
-Organização dos downloads
+O script pergunta qual o ficheiro JSON a processar.
+
+## Organização dos downloads
 
 Os ficheiros são organizados da seguinte forma:
-```
+
+```text
 Z:\Musica/
 └── Mac Miller/
     └── GO_OD AM (10th Anniversary)/
@@ -108,50 +120,49 @@ Z:\Musica/
         └── ...
 ```
 
-O diretório raiz de downloads pode ser alterado em processData.py.
+O diretório raiz de downloads pode ser alterado no ficheiro `processData.py`.
 
-Downloads em paralelo
+## Downloads em paralelo
 
-O script Python utiliza ThreadPoolExecutor para descarregar vários álbuns ao mesmo tempo.
+O script Python utiliza `ThreadPoolExecutor` para descarregar vários álbuns
+ao mesmo tempo.
 
 Configuração:
 
+```python
 max_threads = 4
+```
 
-Evitar downloads duplicados
+## Evitar downloads duplicados
 
 O ficheiro:
 
+```text
 downloaded_log.json
+```
 
 Guarda os artistas e álbuns já descarregados.
 Se um álbum já existir no log, não será descarregado novamente.
 
-Notas importantes
+## Notas importantes
 
-Este projeto não faz bypass de DRM
+- Este projeto não faz bypass de DRM
+- O spotDL utiliza fontes públicas (ex.: YouTube)
+- Destinado apenas a uso pessoal e educativo
+- Respeita sempre os termos do Spotify
 
-O spotDL utiliza fontes públicas (ex.: YouTube)
+## Licença
 
-Destinado apenas a uso pessoal e educativo
+Este projeto está licenciado sob a licença **MIT**.
+Consulta o ficheiro `LICENSE` para mais informações.
 
-Respeita sempre os termos do Spotify
-
-Licença
-
-Este projeto está licenciado sob a licença MIT.
-Consulta o ficheiro LICENSE para mais informações.
-
-Contribuições
+## Contribuições
 
 Contribuições são bem-vindas.
 
 Sugestões de melhoria:
 
-Interface CLI não-interativa
-
-Suporte a playlists
-
-Melhor sistema de logs
-
-Dockerização
+- Interface CLI não-interativa
+- Suporte a playlists
+- Melhor sistema de logs
+- Dockerização
