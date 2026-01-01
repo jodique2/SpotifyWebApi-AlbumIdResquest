@@ -1,7 +1,8 @@
 import "dotenv/config";
 
 /**
- * AUTENTICAÇÃO
+ * Obtém um token de acesso à API do Spotify
+ * Usa Client Credentials Flow
  */
 export async function getAccessToken() {
   const auth = Buffer.from(
@@ -22,7 +23,7 @@ export async function getAccessToken() {
 }
 
 /**
- * SEARCH GENÉRICO (ARTISTA OU ÁLBUM)
+ * Pesquisa genérica no Spotify (artista ou álbum)
  */
 export async function searchSpotify(query, token) {
   const url = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
@@ -37,7 +38,9 @@ export async function searchSpotify(query, token) {
 }
 
 /**
- * BUSCAR TODOS OS ÁLBUNS DE UM ARTISTA
+ * Obtém todos os álbuns de um artista
+ * Inclui álbuns e singles
+ * Remove duplicados no final
  */
 export async function getArtistAlbums(artistId, token) {
   let url = `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=album,single&limit=50`;
@@ -53,6 +56,6 @@ export async function getArtistAlbums(artistId, token) {
     url = data.next;
   }
 
-  // remover duplicados
+  // Remover duplicados pelo nome
   return [...new Map(albums.map(a => [a.name, a])).values()];
 }
